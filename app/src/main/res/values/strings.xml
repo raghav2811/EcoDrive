@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">EcoDrive</string>
+    <string name="start_trip">Start Trip</string>
+    <string name="stop_trip">Stop Trip</string>
+    <string name="eco_score">Eco Score</string>
+    <string name="fuel_used">Fuel Used</string>
+    <string name="co2_emitted">CO₂ Emitted</string>
+    <string name="distance">Distance</string>
+    <string name="duration">Duration</string>
+    <string name="avg_speed">Avg Speed</string>
+    <string name="eco_tips">Eco Tips</string>
+    <string name="trip_summary">Trip Summary</string>
+    <string name="home">Home</string>
+    <string name="location_permission_required">Location permission is required for this app</string>
+    <string name="grant_permission">Grant Permission</string>
+</resources>
