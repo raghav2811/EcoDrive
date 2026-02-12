@@ -1,83 +1,89 @@
-🌱🚗 EcoDrive – Eco-Driving Android Application
+# 🌱🚗 EcoDrive – Eco-Driving Android Application
 
-A complete Android application built with Kotlin, Jetpack Compose, and TensorFlow Lite that tracks driving behavior and provides real-time eco-score feedback using on-device machine learning.
+A complete Android application built with **Kotlin**, **Jetpack Compose**, and **TensorFlow Lite** that tracks driving behavior and provides real-time eco-score feedback using on-device machine learning.
 
-🚗 Features
-📡 Real-time Sensor Data Collection
+---
 
-GPS tracking (location, speed, distance)
+## 🚗 Features
 
-Accelerometer monitoring (acceleration patterns, harsh braking)
+### 📡 Real-time Sensor Data Collection
 
-🧠 On-Device ML Inference
+* GPS tracking (location, speed, distance)
+* Accelerometer monitoring (acceleration patterns, harsh braking)
 
-TensorFlow Lite model for eco-score prediction
+### 🧠 On-Device ML Inference
 
-StandardScaler feature normalization
+* TensorFlow Lite model for eco-score prediction
+* StandardScaler feature normalization
+* Real-time score updates every 2 seconds
 
-Real-time score updates every 2 seconds
+### 🗺️ Live Trip Tracking
 
-🗺️ Live Trip Tracking
+* Google Maps integration with live route display
+* Real-time eco-score gauge (0–100)
+* Fuel consumption estimation
+* CO₂ emissions calculation
 
-Google Maps integration with live route display
+### 💡 Eco-Driving Tips
 
-Real-time eco-score gauge (0–100)
+* Context-aware driving suggestions
+* Performance-based feedback
 
-Fuel consumption estimation
+---
 
-CO₂ emissions calculation
+## 📋 Prerequisites
 
-💡 Eco-Driving Tips
+* Android Studio Flamingo or later
+* Android SDK 26 (Android 8.0) or higher
+* Google Maps API Key
+* TensorFlow Lite model file
 
-Context-aware driving suggestions
+---
 
-Performance-based feedback
+## 🔧 Setup Instructions
 
-📋 Prerequisites
+### 1️⃣ Clone the Project
 
-Android Studio Flamingo or later
-
-Android SDK 26 (Android 8.0) or higher
-
-Google Maps API Key
-
-TensorFlow Lite model file
-
-🔧 Setup Instructions
-1️⃣ Clone or Open the Project
+```bash
 git clone <your-repo-url>
+```
 
+Or open directly in Android Studio.
 
-Or open the directory directly in Android Studio.
+---
 
-2️⃣ Configure Google Maps API Key
+### 2️⃣ Configure Google Maps API Key
 
-Go to: https://console.cloud.google.com/
+1. Go to [https://console.cloud.google.com/](https://console.cloud.google.com/)
+2. Enable **Maps SDK for Android**
+3. Create credentials and copy your API key
 
-Enable Maps SDK for Android
+Edit `local.properties`:
 
-Create credentials and copy your API key
-
-Edit local.properties:
-
+```properties
 MAPS_API_KEY=YOUR_ACTUAL_API_KEY_HERE
+```
 
-3️⃣ Add TensorFlow Lite Model Files
+---
 
-IMPORTANT: Place the following files inside:
+### 3️⃣ Add TensorFlow Lite Model Files
 
+Place these files inside:
+
+```
 app/src/main/assets/
+```
 
-📦 a) eco_score_model.tflite
+#### 📦 eco_score_model.tflite
 
 Model requirements:
 
-Input: 10 float values (exact order required)
+* **Input:** 10 float values
+* **Output:** 1 float value (eco_score 0–100)
 
-Output: 1 float value (eco_score 0–100)
+Feature order (must match exactly):
 
-Feature Order (MUST match exactly):
-
+```
 0. acceleration_variation
 1. stop_events
 2. acceleration
@@ -88,56 +94,69 @@ Feature Order (MUST match exactly):
 7. traffic_condition_Moderate
 8. traffic_condition_Light
 9. road_type_Rural
+```
 
-📦 b) eco_feature_scaler.json
+---
+
+#### 📦 eco_feature_scaler.json
+
+```json
 {
   "mean": [mean_0, mean_1, ..., mean_9],
   "scale": [scale_0, scale_1, ..., scale_9]
 }
-
+```
 
 Example:
 
+```json
 {
   "mean": [0.15, 3.2, 0.8, 45.3, 15.2, 5.4, 0.6, 0.3, 0.7, 0.4],
   "scale": [0.05, 2.1, 0.3, 15.2, 8.5, 3.2, 0.49, 0.46, 0.46, 0.49]
 }
+```
 
-4️⃣ Build the Project
+---
+
+### 4️⃣ Build the Project
+
+```bash
 ./gradlew build
-
+```
 
 Or:
 
-Android Studio → Build → Make Project
+Build → Make Project (Android Studio)
 
-5️⃣ Run on Device
+---
+
+### 5️⃣ Run on Device
 
 ⚠️ Use a real Android device for accurate sensor data.
 
-Enable Developer Options
+1. Enable Developer Options
+2. Enable USB Debugging
+3. Connect device
+4. Click ▶ Run
 
-Enable USB Debugging
+---
 
-Connect device
-
-Click ▶ Run
-
-📱 Permissions
+## 📱 Permissions
 
 The app requires:
 
-ACCESS_FINE_LOCATION
-
-ACCESS_COARSE_LOCATION
-
-INTERNET
-
-ACCESS_NETWORK_STATE
+* `ACCESS_FINE_LOCATION`
+* `ACCESS_COARSE_LOCATION`
+* `INTERNET`
+* `ACCESS_NETWORK_STATE`
 
 Permissions are requested at runtime.
 
-🏗️ Project Structure
+---
+
+## 🏗️ Project Structure
+
+```
 app/src/main/
 ├── java/com/ecodrive/app/
 │   ├── data/
@@ -166,150 +185,101 @@ app/src/main/
 │   ├── eco_score_model.tflite
 │   └── eco_feature_scaler.json
 └── res/
+```
 
-🔬 How It Works
-1️⃣ Sensor Data Collection
+---
 
-GPS updates every 1 second
+## 🔬 How It Works
 
-Accelerometer tracks acceleration patterns
+### 1️⃣ Sensor Data Collection
 
-2️⃣ Feature Engineering
+* GPS updates every 1 second
+* Accelerometer tracks acceleration patterns
 
-The app computes:
+### 2️⃣ Feature Engineering
 
-acceleration_variation
+The app calculates:
 
-stop_events
+* `acceleration_variation`
+* `stop_events`
+* `acceleration`
+* `speed`
+* `trip_duration`
+* `trip_distance`
+* `road_type`
+* `traffic_condition`
 
-acceleration
+### 3️⃣ ML Inference Pipeline
 
-speed
-
-trip_duration
-
-trip_distance
-
-road_type
-
-traffic_condition
-
-3️⃣ ML Inference Pipeline
+```
 Features → StandardScaler → TensorFlow Lite → Eco Score
-
+```
 
 Normalization formula:
 
+```kotlin
 normalized_value = (value - mean) / scale
+```
 
-4️⃣ Eco Score → Fuel → CO₂
+### 4️⃣ Eco Score → Fuel → CO₂
+
+```kotlin
 // Base fuel rate: 6.0 L/100km
 fuel_multiplier = 1.0 + ((100 - eco_score) / 100)
 fuel_used = (6.0 * distance / 100) * fuel_multiplier
 
 // CO₂: 2.31 kg per liter
 co2_emitted = fuel_used * 2.31
+```
 
-🎨 UI Components
-🏠 Home Screen
+---
 
-Welcome message
+## 🎨 UI Components
 
-Start Trip button
+### 🏠 Home Screen
 
-App overview
+* Welcome message
+* Start Trip button
+* App overview
 
-🚘 Live Drive Screen
+### 🚘 Live Drive Screen
 
-Real-time map route
+* Real-time route map
+* Animated eco-score gauge
+* Distance, duration, speed stats
+* Fuel consumption tracking
+* CO₂ emissions tracking
+* Eco-driving tips
+* Stop trip button
 
-Animated eco-score gauge
+---
 
-Trip statistics
+## 🔐 Security Notes
 
-Fuel & CO₂ calculation
+Add to `.gitignore`:
 
-Eco-driving tips
-
-Stop trip button
-
-🐛 Troubleshooting
-App crashes on start
-
-Ensure .tflite file exists in assets/
-
-Validate eco_feature_scaler.json
-
-Map not showing
-
-Verify API key
-
-Enable Maps SDK for Android
-
-Ensure billing is enabled
-
-Location not updating
-
-Use a real device
-
-Enable GPS
-
-Grant permissions
-
-Eco score always 50
-
-Verify model input/output dimensions
-
-Check scaler JSON format
-
-Inspect Logcat for inference errors
-
-📦 Dependencies
-
-Jetpack Compose
-
-Material 3
-
-Google Maps Compose
-
-TensorFlow Lite
-
-Gson
-
-Play Services Location
-
-🔐 Security Notes
-
-Never commit:
-
+```
 local.properties
 *.keystore
+```
 
+Never commit API keys.
 
-Add them to .gitignore.
+---
 
-📄 License
+## 📄 License
 
 Created for demonstration purposes.
 
-🤝 Contributing
+---
 
-To customize:
+## 🤝 Contributing
 
-Modify feature calculations → TripDataProcessor.kt
+1. Modify feature calculations → `TripDataProcessor.kt`
+2. Update UI colors → `Theme.kt`
+3. Adjust eco tips logic → `Constants.kt`
+4. Retrain and replace the ML model
 
-Update UI theme → Theme.kt
+---
 
-Adjust eco tips logic → Constants.kt
-
-Retrain and replace ML model
-
-📧 Support
-
-Android build → Check Gradle & SDK versions
-
-Maps API → Verify API key & billing
-
-ML model → Confirm input/output dimensions
-
-🌍 Drive Smarter. Drive Greener.
+# 🌍 Drive Smarter. Drive Greener.
